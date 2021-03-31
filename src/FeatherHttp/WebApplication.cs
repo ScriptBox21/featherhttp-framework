@@ -58,6 +58,11 @@ namespace Microsoft.AspNetCore.Builder
         public IHostApplicationLifetime ApplicationLifetime => _host.Services.GetRequiredService<IHostApplicationLifetime>();
 
         /// <summary>
+        /// The logger factory for the application.
+        /// </summary>
+        public ILoggerFactory LoggerFactory => _host.Services.GetRequiredService<ILoggerFactory>();
+
+        /// <summary>
         /// The default logger for the application.
         /// </summary>
         public ILogger Logger { get; }
@@ -262,7 +267,7 @@ namespace Microsoft.AspNetCore.Builder
             })
             .ConfigureLogging((hostingContext, logging) =>
             {
-                var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+                var isWindows = OperatingSystem.IsWindows();
 
                 // IMPORTANT: This needs to be added *before* configuration is loaded, this lets
                 // the defaults be overridden by the configuration.
